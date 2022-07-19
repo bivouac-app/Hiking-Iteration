@@ -22,4 +22,13 @@ userController.register = async (req, res, next) => {
   }
 };
 
+userController.login = async (req, res, next) => {
+  const { username, password } = req.body;
+  User.findOne({ username, password })
+    .then((data) => res.send(data))
+    .catch((err) => {
+      return next(err);
+    });
+};
+
 module.exports = userController;
