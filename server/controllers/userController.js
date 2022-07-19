@@ -41,8 +41,11 @@ userController.createUser = async (req, res, next) => {
 userController.verifyUser = async (req, res, next) => {
   const userEmail = req.body.email;
   const userPassword = req.body.password;
+  console.log('userPassword', userPassword)
   User.findOne({email : req.body.email}, (err, user) => {
+    console.log('user', user);
     req.newUserID = user._id.toString();
+    console.log('req.newUserId', req.newUserID)
       bcrypt
         .compare(req.body.password, user.password)
         .then((result) => {
