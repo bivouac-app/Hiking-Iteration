@@ -3,7 +3,9 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 const mongoServer = new MongoMemoryServer();
 
 exports.dbConnect = async () => {
-  const uri = await mongoServer.getUri();
+  console.log(`Connecting to MongoMemoryServer`);
+  const mongo = await MongoMemoryServer.create();
+  const uri = mongo.getUri();
   const mongooseOpts = {
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -14,6 +16,7 @@ exports.dbConnect = async () => {
 };
 
 exports.dbDisconnect = async () => {
+  console.log(`Disconnecting from MongoMemoryServer`);
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
   await mongoServer.stop();

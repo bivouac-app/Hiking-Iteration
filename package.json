@@ -7,7 +7,7 @@
     "start": "NODE_ENV=production nodemon server/server.js --open",
     "build": "webpack",
     "dev": "NODE_ENV=development nodemon server/server.js & NODE_ENV=development webpack serve",
-    "tes": "jest --runInBand --detectOpenHandles"
+    "test": "jest --runInBand --detectOpenHandles"
   },
   "jest": {
     "testEnvironment": "node",
