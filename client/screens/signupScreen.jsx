@@ -10,12 +10,12 @@ const SignupScreen = () => {
   const [success, setSuccess] = useState(false)
 
   // //Success handler
-  // useEffect(() => {
-  //   //If success flag is set, wait 5 seconds then reroute client to '/login'
-  //   success && setTimeout(() => {
-  //     navigate(-1)
-  //   }, 5000)
-  // }, [success])
+  useEffect(() => {
+    //If success flag is set, wait 5 seconds then reroute client to '/login'
+    success && setTimeout(() => {
+      navigate(-1)
+    }, 5000)
+  }, [success])
 
   //function for clicking signup button
   const handleSubmit = async () => {

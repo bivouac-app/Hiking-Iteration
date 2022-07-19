@@ -16,11 +16,13 @@ const App = () => {
     <div className="App">
       <Router>
       <NavBar />
+      {/* <NavBar></NavBar> */}
         <Routes>
           <Route path='/addhike' element={<ProtectedRoute><AddHikeScreen /></ProtectedRoute>} />
           <Route path='/signup' element={<SignupScreen />} />  
           <Route path='/login' element={<LoginScreen/>} />   
           {/* <Route path='/edithike' element={<EditHikeScreen/>} />              */}
+                                  {/* ProtectedRoute(<DashboardScreen/>) */}
           <Route path='/' element={<ProtectedRoute><DashboardScreen/></ProtectedRoute>} />            
         </Routes>    
       </Router>
@@ -29,16 +31,11 @@ const App = () => {
 }
 
 export function ProtectedRoute(props){
-
-  if (localStorage.getItem('user'))
-  { 
+  if (localStorage.getItem('user')){ 
     return props.children
-    
   } else {
-
    return <Navigate to='/login'/>
   }
-
 }
 
 export default App;

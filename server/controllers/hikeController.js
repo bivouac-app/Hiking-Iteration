@@ -2,6 +2,8 @@ const { Navigate } = require('react-router-dom' );
 const Hike = require('../models/hikesModel.js');
 const hikeController = {};
 
+
+// Search by certain parameters instead of just id?
 hikeController.getHikes = async (req, res, next) => {
   try {
     const result = await Hike.find({userid: req.body.userid}); //get hikes of the current logged in user

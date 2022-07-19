@@ -1,7 +1,10 @@
+require('dotenv').config();
+// console.log(process.env);
 const path = require('path');
 const express = require('express');
 const app = express();
 const PORT = 3000;
+const mongoose = require('mongoose')
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -55,6 +58,8 @@ app.get('*', (req, res) => {
   // return res.send({'Error status': errorObj.status, 'Message': errorObj.message});
   return res.status(errorObj.status).json(errorObj.message)
 });
+
+mongoose.connect(`${process.env.MONGO_URI}`, () => console.log('Connected to mongodb'));
 
 
 app.listen(PORT, () => {
