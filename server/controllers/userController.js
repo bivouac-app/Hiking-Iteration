@@ -22,4 +22,15 @@ userController.register = async (req, res, next) => {
   }
 };
 
+userController.login = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username, password });
+    if (!user) throw new Error('Incorrect login credentials');
+    res.send(user);
+  } catch (err) {
+    return next(err);
+  }
+};
+
 module.exports = userController;
