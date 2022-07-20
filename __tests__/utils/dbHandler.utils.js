@@ -8,9 +8,7 @@ exports.dbConnect = async () => {
   const uri = mongo.getUri();
   const mongooseOpts = {
     useNewUrlParser: true,
-    useCreateIndex: true,
     useUnifiedTopology: true,
-    useFindAndModify: false,
   };
   await mongoose.connect(uri, mongooseOpts);
 };

@@ -6,7 +6,6 @@ const User = require('../server/models/usersModel');
 const { dbConnect, dbDisconnect } = require('./utils/dbHandler.utils.js');
 const {
   validateNotEmpty,
-  validateStringEquality,
   validateMongoDuplicationError,
 } = require('./utils/validators.utils');
 
@@ -22,26 +21,28 @@ beforeAll(async () => dbConnect());
 afterAll(async () => dbDisconnect());
 
 describe('User Model Test Suite',  () => {
-  test('Should add a user to the database', async () => {
+  test('Should include all fields when adding new users', async () => {
     const validUser =  new User(fakeUser);
     const savedUser = await validUser.save();
 
-    console.log('savedUser',savedUser);
-    console.log('validUser', validUser)
-    expect(savedUser.firstName).toNotBeNull();
+    // console.log('savedUser',savedUser);
+    // console.log('validUser', validUser)
+    validateNotEmpty(savedUser.firstName);
+    validateNotEmpty(savedUser.lastName);
+    validateNotEmpty(savedUser.location);
+    validateNotEmpty(savedUser.email);
+    validateNotEmpty(savedUser.password);
   });
 
-  test('should validate MongoError duplicate error with code 11000', async () => {
-    expect.assertions(4);
-    const validStudentUser = new User({
-      local: fakeUserData,
-      role: fakeUserData.role,
-    });
+  test('Should not allow two users to have the same email', async () => {
+    expect.assertions(1);
+    const user1 = await (new User(fakeUser)).save();
+    // console.log(user1);
+    
     try {
-      await validStudentUser.save();
+      const user2 = await (new User(fakeUser)).save();
     } catch (error) {
-      const { name, code } = error;
-      validateMongoDuplicationError(name, code);
+      expect(error).not.toBeNull();
     }
   });
 })
