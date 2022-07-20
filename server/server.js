@@ -1,4 +1,6 @@
 require('dotenv').config();
+// console.log(process.env);
+const path = require('path');
 const express = require('express');
 const app = express();
 const PORT = 3000;
@@ -7,6 +9,8 @@ const passport = require('passport')
 const session = require('express-session')
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+mongoose.connect(`mongodb+srv://msBfZUfN:B2rh4bBWTa3PujE@cluster0.4fpu4.mongodb.net/hiking_app?retryWrites=true&w=majority`, () => console.log('Connected to mongodb'));
 
 //passport config
 require('./passport')(passport)
@@ -23,8 +27,8 @@ app.use(passport.session());
 
 //define the user route
 //define the hike route
-const userRoute = require('./routes/userRoute');
-const hikeRoute = require('./routes/hikeRoute');
+const userRoute = require('./routers/userRouter');
+const hikeRoute = require('./routers/hikeRouter');
 const authRoute = require('./auth');
 
 
@@ -73,12 +77,8 @@ app.get('*', (req, res) => {
   return res.status(errorObj.status).json(errorObj.message)
 });
 
-mongoose.connect(`${process.env.MONGO_URI}`, () => console.log('Connected to mongodb'));
-
-
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 });
-
 
 module.exports = app;
