@@ -3,6 +3,7 @@ const { default: axios } = require('axios');
 const mongoose = require('mongoose')
 const User = require('./models/User')
 require('dotenv').config()
+const bcrypt = require('bcrypt');
 
 
 // mongoose.connect(`${process.env.MONGO_URI}`, () => console.log('Connected to mongodb on passport.js'));
@@ -19,11 +20,14 @@ module.exports = function(passport){
     const {given_name, family_name, email} = profile._json
     const sub = profile._json.sub;
 
+    const hashedSub = await bcrypt.hash(sub, 10);
+    console.log(hashedSub);
+
     const userBody = {
       firstName: given_name,
       lastName: family_name,
       email: email,
-      password: sub
+      password: hashedSub
     }
 
     try {      
@@ -34,6 +38,7 @@ module.exports = function(passport){
           done(null, user)
       } else {
           user = await User.create(userBody)
+          
           console.log('user created: ', user)
           done(null, user)
       }
