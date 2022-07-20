@@ -5,16 +5,32 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 const mongoose = require('mongoose')
-
+const passport = require('passport')
+const session = require('express-session')
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//passport config
+require('./passport')(passport)
+//oauth Session
+app.use(session({
+  secret:'keyboardcat',
+  resave:'false',
+  saveUninitialized: 'false'
+}))
+
+//passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 //define the user route
 //define the hike route
-
 const userRoute = require('./routes/userRoute');
 const hikeRoute = require('./routes/hikeRoute');
+const authRoute = require('./auth');
 
+
+app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute)
 app.use('/api/hikes', hikeRoute)
 
