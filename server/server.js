@@ -1,4 +1,6 @@
 require('dotenv').config();
+// console.log(process.env);
+const path = require('path');
 const express = require('express');
 const app = express();
 const PORT = 3000;
@@ -10,6 +12,8 @@ mongoose.connect('mongodb+srv://msBfZUfN:B2rh4bBWTa3PujE@cluster0.4fpu4.mongodb.
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+mongoose.connect(`mongodb+srv://msBfZUfN:B2rh4bBWTa3PujE@cluster0.4fpu4.mongodb.net/hiking_app?retryWrites=true&w=majority`, () => console.log('Connected to mongodb'));
 
 //passport config
 require('./passport')(passport)
@@ -53,11 +57,8 @@ app.use('/api/hikes', hikeRouter)
   return res.status(errorObj.status).json(errorObj.message)
 });
 
-
-
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 });
-
 
 module.exports = app;

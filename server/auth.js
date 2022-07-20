@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 
-router.get('/google', passport.authenticate('google', {scope: ['profile']}))
+router.get('/google', passport.authenticate('google', {scope: ['profile','email']}))
 
 router.get('/google/callback', passport.authenticate('google', {failureRedirect: '/'}),
   (req, res) => {
@@ -13,7 +13,11 @@ router.get('/google/callback', passport.authenticate('google', {failureRedirect:
   }
 )
 
-
+//logout user
+router.get('/logout', (req, res) => {
+  req.logout()
+  redirect('/')
+})
 
 // // Signup
 // router.post('/signup', userController.createUser, (req, res) => {
