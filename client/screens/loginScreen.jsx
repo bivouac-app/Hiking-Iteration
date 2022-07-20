@@ -1,45 +1,46 @@
-import React, {useState, useEffect} from 'react'
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import GoogleOauth from '../components/Authenticate';
-import VideoPlayer from "react-background-video-player";
+import VideoPlayer from 'react-background-video-player';
 
-const LoginScreen = ({user, setUser}) => {
-  
-  const navigate = useNavigate()
-  const [success, setSuccess] = useState(false)
+const LoginScreen = ({ user, setUser }) => {
+  const navigate = useNavigate();
+  const [success, setSuccess] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = async () => {
-    //get the values of the needed imputs to send to server
-    const email = document.getElementById('loginEmail')
-    const password = document.getElementById('loginPassword');
-    try{
-      let response = await axios.post('/api/users/login', { email: email.value, password: password.value },  { proxy:{
-        host: 'localhost',
-        port: 3000}})
+    try {
+      const response = await axios.post(
+        '/api/users/login',
+        { email, password },
+        {
+          proxy: {
+            host: 'localhost',
+            port: 3000,
+          },
+        },
+      );
 
-    //Make a post request to /api/users/login
-    //body includes email, password
-    localStorage.setItem(
-      'user',
-      JSON.stringify({ ...response.data, password: "" })
-    );
-    navigate('/');
-  }
-  catch(error){
-    console.log('error in logging in')
-  }
-  }
+      //Make a post request to /api/users/login
+      //body includes email, password
+      localStorage.setItem('user', JSON.stringify(response.data));
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
   //to check if user is already logged in, navigate to homepage
 
   useEffect(() => {
     if (localStorage.getItem('user')) {
-      navigate("/");
+      navigate('/');
     }
   }, []);
 
   return (
-    <div className="signupScreen-container">
+    <div className='signupScreen-container'>
       {/* <VideoPlayer
         className="video"
         src={
@@ -49,8 +50,24 @@ const LoginScreen = ({user, setUser}) => {
         muted={true}
       /> */}
       <h1>Login</h1>
-      <input className="loginInputs" type="email" id="loginEmail" name="email" placeholder="Email"/>
-      <input className="loginInputs" type="password" id="loginPassword" name="password" placeholder="Password"  />
+      <input
+        className='loginInputs'
+        type='email'
+        id='loginEmail'
+        name='email'
+        placeholder='Email'
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        className='loginInputs'
+        type='password'
+        id='loginPassword'
+        name='password'
+        placeholder='Password'
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
       <br></br>
       <Link to="/signup">Not registered yet? Click here to register!</Link>
       <button className="signupButton" id='signup-submit'onClick={() => handleSubmit()} >Login</button>
@@ -58,8 +75,7 @@ const LoginScreen = ({user, setUser}) => {
       <a href="/api/auth/google">Log in With oAuth</a>
       {success && <p>Success, redirecting... login with your credentials</p>}
     </div>
-    
-  )
-}
+  );
+};
 
-export default LoginScreen
+export default LoginScreen;
