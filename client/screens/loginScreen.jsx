@@ -69,15 +69,10 @@ const LoginScreen = ({ user, setUser }) => {
         onChange={(e) => setPassword(e.target.value)}
       />
       <br></br>
-      <Link to='/signup'>Not registered yet? Click here to register!</Link>
-      <button
-        className='signupButton'
-        id='signup-submit'
-        onClick={() => handleSubmit()}
-      >
-        Login
-      </button>
-      <GoogleOauth />
+      <Link to="/signup">Not registered yet? Click here to register!</Link>
+      <button className="signupButton" id='signup-submit'onClick={() => handleSubmit()} >Login</button>
+      {/* <GoogleOauth /> */}
+      <a href="/api/auth/google">Log in With oAuth</a>
       {success && <p>Success, redirecting... login with your credentials</p>}
     </div>
   );
