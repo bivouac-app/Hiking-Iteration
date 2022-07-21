@@ -8,6 +8,7 @@ const postSchema = new mongoose.Schema({
   author_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    required: true
   },
   created_on: {
     type: Date,
