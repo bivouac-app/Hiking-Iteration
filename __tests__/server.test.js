@@ -66,4 +66,62 @@ describe('testing user routes', () => {
         console.log('in expect statements2');
       });
   });
+
+  it('tests POST to /api/posts/new', async () => {
+    const post = {
+      title: 'Post 1',
+      content: 'Lorem ipsum',
+    };
+
+    await supertest(testApp)
+      .post('/api/posts/new')
+      .send(post)
+      .expect(200)
+      .then(async (response) => {
+        // Check the response
+        expect(response.body.author_id).toBeTruthy();
+        expect(response.body.content).toBe(post.content);
+
+        // Check the data in the database
+        const savedPost = await Post.findOne({ _id: response.body.author_id });
+        expect(savedPost).toBeTruthy();
+        expect(savedPost.content).toBe(post.content);
+      });
+  });
+
+  test('DELETE /api/posts/:id', async () => {
+    const post = await Post.create({
+      title: 'Post 2',
+      content: 'Some stuff',
+    });
+
+    await supertest(app)
+      .delete('/api/posts/' + post.id)
+      .expect(204)
+      .then(async () => {
+        expect(await Post.findOne({ _id: post.id })).toBeFalsy();
+      });
+  });
+
+  it('tests POST to /api/get-hikes', async () => {
+    const hike = {
+      user_id: user1.id,
+      title: 'test hike',
+      difficulty: 5,
+    };
+    await supertest(testApp)
+      .post('/api/get/hikes')
+      .send(hike)
+      .expect(200)
+      .then(async (response) => {
+        // Check the response
+        expect(response.body.userid).toBeTruthy();
+        expect(response.locals.hikes).toBe(hike);
+
+        // Check the data in the database
+        const savedHike = await Hike.find({ userid: response.body.userid });
+        expect(savedHike).toBeTruthy();
+        expect(savedHike.title).toBe(hike.title);
+      });
+  });
 });
