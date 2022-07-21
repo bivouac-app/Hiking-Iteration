@@ -25,4 +25,13 @@ commentController.deleteComment = (req, res, next) => {
     });
 };
 
+commentController.getSpecificComment = (req, res, next) => {
+  const { id } = req.params;
+  Comment.findById(id)
+    .then((comment) => res.send(comment))
+    .catch((err) => {
+      return next(err);
+    });
+};
+
 module.exports = commentController;

@@ -21,7 +21,7 @@ const AddHikeScreen = () => {
     //console.log('before post request')
 
     //Make a post request to /api/addHike
-    let response = await axios.post('/api/hikes/', { title: title.value, location: location.value, date: date.value, difficulty: difficulty.value,  crowds: crowds.value, distance: distance.value, notes: notes.value, type: type.value, userid: user._id }, 
+    let response = await axios.post('/api/hikes/', { title: title.value, location: location.value, date: date.value, difficulty: difficulty.value,  crowds: crowds.value, distance: distance.value, notes: notes.value, type: type.value, user_id: user._id }, 
     { proxy:{ host: 'localhost', port: 3000}})
 
     getHikes();
@@ -51,7 +51,6 @@ const AddHikeScreen = () => {
           <option value="thruHike">Thru-Hike</option>
           <option value="sectionHike">Section Hike</option>
           <option value="summitHike">Summit Hike</option>
-          <option value="sectionHike">Section Hike</option>
         </select>
         Date <input className="newHikeInputs" id="date" type="date" />
         Distance <input className="newHikeInputs" type="number" id="distance" name="distance" placeholder="10" required />
