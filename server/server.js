@@ -5,6 +5,9 @@ const PORT = 3000;
 const mongoose = require('mongoose')
 const passport = require('passport')
 const session = require('express-session')
+
+mongoose.connect('mongodb+srv://msBfZUfN:B2rh4bBWTa3PujE@cluster0.4fpu4.mongodb.net/hiking_app?retryWrites=true&w=majority', () => console.log('Connected to mongodb'));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -23,37 +26,14 @@ app.use(passport.session());
 
 //define the user route
 //define the hike route
-const userRoute = require('./routes/userRoute');
-const hikeRoute = require('./routes/hikeRoute');
-const authRoute = require('./auth');
+const userRouter = require('./routers/userRouter');
+const hikeRouter = require('./routers/hikeRouter');
+const authRouter = require('./auth');
 
+app.use("/api/auth", authRouter);
+app.use("/api/users", userRouter)
+app.use('/api/hikes', hikeRouter)
 
-app.use("/api/auth", authRoute);
-app.use("/api/users", userRoute)
-app.use('/api/hikes', hikeRoute)
-
-if (process.env.NODE_ENV === 'production') {
-  app.use('/dist', express.static(path.resolve(__dirname, '../dist')));
-
-  app.get('/', (req, res) => {
-    return res.status(200).sendFile(path.resolve(__dirname, '../index.html'));
-  });
-};
-
-// app.use((req, res) => res.sendStatus(404)); // catch-all route handler for any requests to an unknown route
-
-
-app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, '../index.html'), function(err) {
-    if (err) {
-      res.status(500).send(err)
-    }
-  })
-})
-app.get('*', (req, res) => {
-  console.log("Invalid URL detected");
-  res.status(404).json({ error: `Page not found, request to ${req.path} failed` });
-});
 /**
  * configure express global error handler
  * @see https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
@@ -73,7 +53,6 @@ app.get('*', (req, res) => {
   return res.status(errorObj.status).json(errorObj.message)
 });
 
-mongoose.connect(`${process.env.MONGO_URI}`, () => console.log('Connected to mongodb'));
 
 
 app.listen(PORT, () => {
