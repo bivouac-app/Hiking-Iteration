@@ -29,7 +29,7 @@ body{
   position: absolute;
   right: 0;
   width: 50vw;
-  height: 100vh;
+  height: 100%;
   background: rgb(179,179,179);
   background: linear-gradient(90deg, rgba(179,179,179,1) 70%, rgb(87, 50, 15) 100%);
 }
@@ -124,6 +124,11 @@ font-size: 43px;}
   margin: 50px;
   padding: 30px;
   z-index: 1;
+}
+
+#grid-container {
+  margin: 20px;
+  padding: 20px;
 }
 
 .hikeFeed{
@@ -275,7 +280,6 @@ transform: scale(1.4) skewX(-0.4deg);
 #submit-status-btn {
   height: 5ch;
   width: 20ch;
-  margin-left: 4ch;
   align-self: center;
 }
 
@@ -286,5 +290,10 @@ transform: scale(1.4) skewX(-0.4deg);
 }
 
 #photo-btn {
-  width: fit-content;
+  margin: 10px;
+  width: 200px;
+}
+
+.post-cards {
+  
 }

@@ -49,7 +49,7 @@ const Feed = props => {
       for (const post of response.data) {
         postArr.push(
         <Grid item xs={6}>
-          <Card sx={{ maxWidth: 345 }}>
+          <Card className="post-cards" sx={{ maxWidth: 345 }}>
             <CardActionArea>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
@@ -102,7 +102,7 @@ const Feed = props => {
         </Fab> 
       </div>
     </div> 
-    <Grid container rowSpacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+    <Grid id="grid-container" container rowSpacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
       {statusStack}
     </Grid>
   </>
