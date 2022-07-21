@@ -16,8 +16,8 @@ userController.register = async (req, res, next) => {
       email,
       password,
     });
-    res.locals.user = user;
-    res.send(user);
+    res.locals.id = user._id;
+    return next();
   } catch (err) {
     return next(err);
   }
@@ -25,12 +25,18 @@ userController.register = async (req, res, next) => {
 
 userController.login = async (req, res, next) => {
   try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username, password });
+    const { email, password } = req.body;
+    const user = await User.find({ email, password });
     if (!user) throw new Error('Incorrect login credentials');
-    res.send(user);
+    console.log('user controller user data: ', user[0].id)
+    res.locals.id = user[0]._id;
+    // console.log('res.locals in userController.login', res.locals)
+    // console.log('res.locals.user[0]_id', user[0]._id)
+    res.cookie('id', (user[0]._id).toString());
+    // res.send(user[0].id);
+    return next();
   } catch (err) {
-    return next(err);
+    return next(err)
   }
 };
 
@@ -47,11 +53,17 @@ userController.getAll = async (req, res, next) => {
 
 userController.getSpecificUser = async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).populate('gallery');
     res.json(user);
   } catch (err) {
     return next(err);
   }
 };
+
+userController.upload = async (req, res, next) => {
+  const { link, id } = req.body;
+  const user = await User.findByIdAndUpdate(id, { $push: { gallery: link } }, { new : true})
+  res.send(user)
+}
 
 module.exports = userController;

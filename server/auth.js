@@ -9,6 +9,8 @@ router.get('/google', passport.authenticate('google', {scope: ['profile','email'
 
 router.get('/google/callback', passport.authenticate('google', {failureRedirect: '/'}),
   (req, res) => {
+    console.log('req.user in auth js: ', req.user.data);
+    res.cookie('id', req.user.data)
     res.redirect('/')
   }
 )
@@ -16,7 +18,7 @@ router.get('/google/callback', passport.authenticate('google', {failureRedirect:
 //logout user
 router.get('/logout', (req, res) => {
   req.logout()
-  redirect('/')
+  res.redirect('/')
 })
 
 // // Signup

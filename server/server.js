@@ -7,19 +7,27 @@ const PORT = 3000;
 const mongoose = require('mongoose')
 const passport = require('passport')
 const session = require('express-session')
-
-mongoose.connect('mongodb+srv://msBfZUfN:B2rh4bBWTa3PujE@cluster0.4fpu4.mongodb.net/hiking_app?retryWrites=true&w=majority', () => console.log('Connected to mongodb'));
+const cookieSession = require('cookie-session');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+mongoose.connect(`mongodb+srv://msBfZUfN:B2rh4bBWTa3PujE@cluster0.4fpu4.mongodb.net/hiking_app?retryWrites=true&w=majority`, () => console.log('Connected to mongodb'));
+
 //passport config
 require('./passport')(passport)
+
+// app.use(cookieSession({
+//   keys: ['id']
+// }));
+
 //oauth Session
 app.use(session({
-  secret:'keyboardcat',
-  resave:'false',
-  saveUninitialized: 'false'
+  secret:'id',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {secure: false},
+  name: 'carmen'
 }))
 
 //passport middleware
@@ -28,13 +36,14 @@ app.use(passport.session());
 
 //define the user route
 //define the hike route
-const userRouter = require('./routers/userRouter');
-const hikeRouter = require('./routers/hikeRouter');
-const authRouter = require('./auth');
+const userRoute = require('./routers/userRouter');
+const hikeRoute = require('./routers/hikeRouter');
+const authRoute = require('./auth');
+const { Cookie } = require('express-session');
 
-app.use("/api/auth", authRouter);
-app.use("/api/users", userRouter)
-app.use('/api/hikes', hikeRouter)
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute)
+app.use('/api/hikes', hikeRoute)
 
 /**
  * configure express global error handler

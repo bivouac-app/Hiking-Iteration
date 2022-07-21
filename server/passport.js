@@ -1,9 +1,9 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy
-const { default: axios } = require('axios');
 const mongoose = require('mongoose')
 const User = require('./models/User')
-require('dotenv').config()
 const bcrypt = require('bcrypt');
+const fetch = require('node-fetch');
+const axios = require('axios')
 
 
 // mongoose.connect(`${process.env.MONGO_URI}`, () => console.log('Connected to mongodb on passport.js'));
@@ -21,29 +21,46 @@ module.exports = function(passport){
     const sub = profile._json.sub;
 
     const hashedSub = await bcrypt.hash(sub, 10);
-    console.log(hashedSub);
+    console.log(sub);
 
     const userBody = {
       firstName: given_name,
       lastName: family_name,
       email: email,
-      password: hashedSub
+      password: sub
     }
 
     try {      
-      let user = await User.findOne({email: email})
-      console.log('user found: ', user)
+      // let user = await fetch('/api/users/login', {
+      //   method: 'POST',
+      //   headers: {'Content-Type': 'application/json'},
+      //   body: {email: email, password: hashedSub}
+      // })
 
-      if (user) {
-          done(null, user)
+      let user = await axios.post('http://localhost:3000/api/users/login', {
+        email: email,
+        password: sub
+      });
+      console.log('dudeuuedueudeuuedueuded ', user.data)
+
+      if (user.data.length > 0) {
+        // axios.post('/api/users/login', {body : {email: email, password: hashedSub}}).then(() => done(null, user)).catch(err => console.log('yo there was error dummy(dummys addy not carmen)'))
+        done(null, user)
       } else {
-          user = await User.create(userBody)
-          
-          console.log('user created: ', user)
+        let user = await axios.post('http://localhost:3000/api/users/register', 
+          userBody
+        );
+
+        console.log(user);
+        axios.post('http://localhost:3000/api/users/createCookie', {
+          userID: user.data
+        })
+          // axios.post('/api/users/login', {email: email, password: hashedSub}).then(() => done(null, user))
           done(null, user)
       }
+
   } catch(err) {
-      console.log(err);
+      console.log('err');
   }
   //axios('/')
 
@@ -59,7 +76,7 @@ module.exports = function(passport){
 
   
   passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => done(err, user));
+    User.findById(id.id, (err, user) => done(err, user));
   });
   
 

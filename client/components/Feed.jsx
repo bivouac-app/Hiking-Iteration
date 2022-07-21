@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Fab from '@mui/material/Fab';
 import Stack from '@mui/material/Stack';
+import UploadImage from './uploadImage';
 
 const Feed = props => {
   const [statusInput, setStatusInput] = useState('');
@@ -70,9 +71,7 @@ const Feed = props => {
       </Box>
       <div id='submit-container'>
         <Button id="submit-status-btn" variant="contained" onClick={clickSubmit}>Submit Status!</Button>
-        <Fab id="photo-btn" color="primary" variant="extended">
-          <input type="file" />
-        </Fab> 
+        <UploadImage/>
       </div>
     </div> 
     <Stack>

@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   },
   lastName: {
     type: String,
-    required: true,
+    // required: true,
   },
   location: String,
   email: {
@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   googleId : String,
+  gallery: [String],
   posts: [
     {
       type: mongoose.Schema.Types.ObjectId,
