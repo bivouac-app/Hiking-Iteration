@@ -18,7 +18,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  googleId : String,
+  googleId: String,
+  hikes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Hike',
+    },
+  ],
   posts: [
     {
       type: mongoose.Schema.Types.ObjectId,

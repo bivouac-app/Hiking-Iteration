@@ -27,4 +27,23 @@ postController.deletePost = (req, res, next) => {
     });
 };
 
+postController.getSpecificPost = (req, res, next) => {
+  const { id } = req.params;
+  Post.findById(id)
+    .populate('comments')
+    .then((post) => res.send(post))
+    .catch((err) => {
+      return next(err);
+    });
+};
+
+postController.getAll = (req, res, next) => {
+  Post.find({})
+    .populate('comments')
+    .then((posts) => res.send(posts))
+    .catch((err) => {
+      return next(err);
+    });
+};
+
 module.exports = postController;
