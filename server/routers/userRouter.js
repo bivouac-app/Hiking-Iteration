@@ -21,4 +21,10 @@ router.get('/getall', userController.getAll)
 
 router.get('/:id', userController.getSpecificUser);
 
+router.post('/upload', userController.upload);
+
+router.get('/cookieID', userController.getCookieID, (req, res) => {
+    
+})
+
 module.exports = router;

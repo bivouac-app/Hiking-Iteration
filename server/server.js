@@ -11,6 +11,7 @@ const cookieSession = require('cookie-session');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookie());
 
 mongoose.connect(`mongodb+srv://msBfZUfN:B2rh4bBWTa3PujE@cluster0.4fpu4.mongodb.net/hiking_app?retryWrites=true&w=majority`, () => console.log('Connected to mongodb'));
 
