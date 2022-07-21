@@ -27,7 +27,7 @@ module.exports = function(passport){
       firstName: given_name,
       lastName: family_name,
       email: email,
-      password: sub
+      password: hashedSub
     }
 
     try {      
