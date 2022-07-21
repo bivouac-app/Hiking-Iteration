@@ -28,13 +28,13 @@ const EditHikeScreen = ({ hike, edit, setIsEdit }) => {
     window.location.reload();
   }
 
- 
+ console.log(hike.date)
 
 
   return (
     <div className="addHikeScreen">
         <div className="signupScreen-container">
-        <h1>Edit your hike</h1>
+        <h1>Editing '{hike.title}'</h1>
         Title<input className="newHikeInputs" type="text" id="title" name="title" placeholder="Title" required defaultValue={hike.title}/>
         Location<input className="newHikeInputs" type="text" id="location" name="location" placeholder="Zion National Park" required defaultValue={hike.location}/>
         Notes<textarea className="newHikeInputs" id="notes" defaultValue={hike.notes}></textarea>
@@ -45,7 +45,7 @@ const EditHikeScreen = ({ hike, edit, setIsEdit }) => {
           <option value="summitHike">Summit Hike</option>
           <option value="sectionHike">Section Hike</option>
         </select>
-        Date<input className="newHikeInputs" id="date" type="date" defaultValue={hike.date}/>
+        Date<input className="newHikeInputs" id="date" type="date" defaultValue={hike.date.slice(0,10)}/>
         Distance<input className="newHikeInputs" type="number" id="distance" name="distance" placeholder="10" required defaultValue={hike.distance}/>
         Difficulty<input type="range" min="1" max="10"  className="slider newHikeInputs" id="difficulty" defaultValue={hike.distance}/> 
         Crowds<input type="range" min="1" max="10" className="slider newHikeInputs" id="crowds" defaultValue={hike.crowds}/> 

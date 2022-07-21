@@ -5,13 +5,10 @@ import uuid from 'react-uuid';
 
 const HikeFeed = ({hikesData, deleteHikes, editHikes}) => {
 
-
-
   if (!hikesData.length) return (
-    <div>Sorry, no hikes found! </div>
+    <div>Sorry, no hikes found! PLease enter one in the "Add Hike" page.</div>
   );
 
-  console.log('deleteHikes in HikeFeed: ', deleteHikes)
   return (
     <div id="hikeCardContainer">
       {
