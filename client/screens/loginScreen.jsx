@@ -33,6 +33,12 @@ const LoginScreen = ({ user, setUser }) => {
   };
   //to check if user is already logged in, navigate to homepage
 
+  const clickOauth = async () => {
+    const oauth = await fetch("/api/auth/google");
+    console.log(oauth);
+
+  }
+
   useEffect(() => {
     if (localStorage.getItem('user')) {
       navigate('/');
@@ -72,7 +78,8 @@ const LoginScreen = ({ user, setUser }) => {
       <Link to="/signup">Not registered yet? Click here to register!</Link>
       <button className="signupButton" id='signup-submit'onClick={() => handleSubmit()} >Login</button>
       {/* <GoogleOauth /> */}
-      <a href="/api/auth/google">Log in With oAuth</a>
+      {/* <a href="/api/auth/google">Log in With oAuth</a> */}
+      <button onClick={() => clickOauth()}> Log in With oAuth</button>
       {success && <p>Success, redirecting... login with your credentials</p>}
     </div>
   );
