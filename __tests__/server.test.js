@@ -2,12 +2,13 @@ const mongoose = require('mongoose');
 const express = require('express');
 const supertest = require('supertest');
 const { MongoClient } = require('mongodb');
+
 const client = new MongoClient(global.__MONGO_URI__);
 const { dbConnect, dbDisconnect } = require('./utils/dbHandler.utils.js');
+
 const User = require('../server/models/User');
 const userRoute = require('../server/routers/userRouter');
 const hikeRoute = require('../server/routers/hikeRouter');
-const { Unstable_Grid2 } = require('@mui/material');
 
 // //helper function for temp server instance:
 const createServer = () => {
@@ -16,14 +17,19 @@ const createServer = () => {
   console.log('inside createServer pre routes');
   app.use('/api/users', userRoute);
   app.use('/api/hikes', hikeRoute);
+  app.use("/api/auth", authRouter);
   console.log('inside createServer pre return');
   return app;
 };
+
+//spin up server instance
 const testApp = createServer();
 
+//setup and teardown db connection
 beforeAll(async () => dbConnect());
 afterAll(async () => dbDisconnect());
 
+//route tests:
 describe('testing user routes', () => {
   //before testing /getall route, create a temp user record:
   it('gets all users', async () => {
