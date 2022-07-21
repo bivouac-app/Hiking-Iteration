@@ -25,8 +25,8 @@ userController.register = async (req, res, next) => {
 
 userController.login = async (req, res, next) => {
   try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username, password });
+    const { email, password } = req.body;
+    const user = await User.findOne({ email, password });
     if (!user) throw new Error('Incorrect login credentials');
     res.send(user);
   } catch (err) {
