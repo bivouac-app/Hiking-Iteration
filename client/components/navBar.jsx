@@ -1,14 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {useNavigate} from 'react-router-dom'
+import logo from '../../public/Screen Shot 2022-07-20 at 7.44.02 PM.png'
 
 const NavBar = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const navigate = useNavigate()
     return (
         <div className="nav">
-          <p id="logo">Bivouac</p>
+          <img id="logo" src={logo}/>
           <div>
+            <Link className="link" to="/Feed">Feed</Link>
             <Link className="link" to="/">Home</Link>
             <Link className="link" to="/addhike">Add Hike</Link>
             <button className="logout" onClick={()=>{

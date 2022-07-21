@@ -7,6 +7,7 @@ const userController = {};
 
 userController.register = async (req, res, next) => {
   try {
+    console.log('registering user');
     const { firstName, lastName, location, email, password } = req.body;
     const user = await User.create({
       firstName,
@@ -28,6 +29,26 @@ userController.login = async (req, res, next) => {
     const user = await User.findOne({ username, password });
     if (!user) throw new Error('Incorrect login credentials');
     res.send(user);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+userController.getAll = async (req, res, next) => {
+  try {
+    console.log('GET ALL');
+    const users = await User.find({});
+    console.log(users);
+    res.send(users);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+userController.getSpecificUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.json(user);
   } catch (err) {
     return next(err);
   }
