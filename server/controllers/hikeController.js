@@ -75,7 +75,7 @@ hikeController.createHike = async (req, res, next) => {
     date,
     notes,
     crowds,
-    userid,
+    user_id,
   } = req.body;
   try {
     const result = await Hike.create({
@@ -87,7 +87,7 @@ hikeController.createHike = async (req, res, next) => {
       date,
       notes,
       crowds,
-      userid,
+      user_id,
     });
     res.locals.newHike = result;
     console.log('hike created successfully');

@@ -1,75 +1,84 @@
-// import axios from 'axios';
-// import React from 'react';
+import axios from 'axios';
+import React,{useState} from 'react';
+import { useTheme } from '@mui/material/styles';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import NativeSelect from '@mui/material/NativeSelect';
+import Select from '@mui/material/Select';
  
-// export default SearchState = (state) => {
+const SearchState = () => {
+  const [stateShown, setStateShown] = useState('')
+  const [state, changeState] = useState([])
 
-//   const handleFetch = async () => {
-//     let stateResponse = await axios.put('/api/hikes/states', {state:state.value}, { proxy:{ host: 'localhost', port: 3000}});
-//     console.log(stateResponse);
-//   }
+  const handleFetch = async () => {
+    console.log('preFetch')
+    // let stateResponse = await axios.put('/api/hikes/states', {state:state.value}, { proxy:{ host: 'localhost', port: 3000}});
+    // console.log(stateResponse);
+  };
 
-//   return (
-//     <div>
-//       <select name="state" id="state">
-//         <option value="New York">New York</option>
-//         <option value="Alabama">Alabama</option>
-//         <option value="Alaska">Alaska</option>
-//         <option value="Arizona">Arizona</option>
-//         <option value="Arkansas">Arkansas</option>
-//         <option value="California">California</option>
-//         <option value="Colorado">Colorado</option>
-//         <option value="Connecticut">Connecticut</option>
-//         <option value="Delaware">Delaware</option>
-//         <option value="Florida">Florida</option>
-//         <option value="Georgia">Georgia</option>
-//         <option value="Hawaii">Hawaii</option>
-//         <option value="Idaho">Idaho</option>
-//         <option value="Illinois">Illinois</option>
-//         <option value="Indiana">Indiana</option>
-//         <option value="Iowa">Iowa</option>
-//         <option value="Kansas">Kansas</option>
-//         <option value="Kentucky">Kentucky</option>
-//         <option value="Louisiana">Louisiana</option>
-//         <option value="Maine">Maine</option>
-//         <option value="Maryland">Maryland</option>
-//         <option value="Michigan">Michigan</option>
-//         <option value="Minnesota">Minnesota</option>
-//         <option value="Mississippi">Mississippi</option>
-//         <option value="Missouri">Missouri</option>
-//         <option value="Massachusetts">Massachusetts</option>
-//         <option value="Montana">Montana</option>
-//         <option value="Nebraska">Nebraska</option>
-//         <option value="Nevada">Nevada</option>
-//         <option value="New Hampshire">New Hampshire</option>
-//         <option value="New Jersey">New Jersey</option>
-//         <option value="New Mexico">New Mexico</option>
-//         <option value="North Carolina">North Carolina</option>
-//         <option value="North Dakota">North Dakota</option>
-//         <option value="Ohio">Ohio</option>
-//         <option value="Oklahoma">Oklahoma</option>
-//         <option value="Oregon">Oregon</option>
-//         <option value="Pennsylvania">Pennsylvania</option>
-//         <option value="Rhode Island">Rhode Island</option>
-//         <option value="South Carolina">South Carolina</option>
-//         <option value="South Dakota">South Dakota</option>
-//         <option value="Tennessee">Tennessee</option>
-//         <option value="Texas">Texas</option>
-//         <option value="Utah">Utah</option>
-//         <option value="Vermont">Vermont</option>
-//         <option value="Virginia">Virginia</option>
-//         <option value="Washington">Washington</option>
-//         <option value="Wisconsin">Wisconsin</option>
-//         <option value="Wyoming">Wyoming</option>
-//   </select>
-//   <button className='searchForState' onClick={()=> handleFetch(state.value)}></button>
-//     </div>
+  const handleChange = (event) => {
+    const {target: { value }} = event;
+    changeState([value]);
+    console.log(value)
+    try {
+      handleFetch([value]);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-//   )
-//  }
+  const states = [
+    'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
+
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+
+  return (
+    <div>
+  <FormControl sx={{ m: 1, width: 300 }}>
+        <InputLabel id="demo-multiple-name-label">Name</InputLabel>
+        <Select
+          labelId="demo-multiple-name-label"
+          id="demo-multiple-name"
+          value={state}
+          onChange={handleChange}
+          input={<OutlinedInput label="State" />}
+          MenuProps={MenuProps}
+        >
+          {states.map((state) => (
+            <MenuItem
+              key={state}
+              value={state}
+              // style={getStyles(name, personName, theme)}
+            >
+              {state}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+  <button className='searchForState' onClick={()=> handleFetch(state.value)}></button>
+  <div className='modalContainerForSearch'>
+
+  </div>
+    </div>
+
+  )
+ }
  
+ export default SearchState
 //  hikeController.getState = async (req, res, next) => {
 //   try {
-//     const result = await Hike.find({ state: req.body.state }); //get hikes of the current logged in user
+//     const result = await Hike.find({ state: req.body.state },{location : 1, difficulty:1, distance:1, crowds:1, type:1, user_id: 0}); //get hikes of the current logged in user
 //     // if (!result.length) throw 'Could not get all hikes';
 //     if(result === {}) alert('There are currently no trails listing in our database for this state')
 //     res.locals.allHikesinAState = result;

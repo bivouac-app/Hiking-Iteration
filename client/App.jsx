@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import axios from 'axios'
 import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
 import SignupScreen from "./screens/signupScreen";
 import LoginScreen from "./screens/loginScreen";
@@ -6,15 +7,14 @@ import DashboardScreen from "./screens/dashboardScreen";
 import NavBar from "./components/navBar";
 import AddHikeScreen from "./screens/addHikeScreen";
 import Feed from "./components/Feed";
-// import EditHikeScreen from "./screens/editHikeScreen";
 import "./index.css";
 
 const App = () => {
 
   const [user, setUser] = useState();
   const [statusStack, setStatusStack] = useState('');
-
   
+  // For (const post in posts) 
 
   return (
     <div className="App">

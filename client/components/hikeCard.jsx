@@ -16,7 +16,7 @@ const HikeCard = ({hike, deleteHikes, editHikes}) => {
     <div className='hikeCard'>
       {edit && <EditHikeScreen hike={hike} editHikes={editHikes} edit={edit} setIsEdit={setIsEdit} />}
       {!edit && <div >
-      <p id='date'>{hike.date}</p>
+      <p id='date'>{hike.date.slice(0,10)}</p>
       <div className='titleBox'>
         <h2>{hike.title}</h2>
       </div>
@@ -36,12 +36,12 @@ const HikeCard = ({hike, deleteHikes, editHikes}) => {
         <hr></hr>
         <div id='difficultyBox'>
           <p>Difficulty</p>
-          <p><b>{hike.difficulty}</b></p>
+          <p><b>{hike.difficulty + "/10"}</b></p>
         </div>
         <hr></hr>
         <div id='crowdsBox'>
           <p>Crowds</p>
-          <p><b>{hike.crowds}</b></p>
+          <p><b>{hike.crowds + "/10"}</b></p>
         </div>
       </div>
       <button className='deleteHike' onClick={() => deleteHikes(hike._id)}>

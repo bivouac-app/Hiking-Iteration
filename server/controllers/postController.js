@@ -17,7 +17,6 @@ postController.createPost = async (req, res, next) => {
 };
 
 // This doesn't check if user deleting the post === original poster, yet!
-// ADD BETTER ERROR HANDLING
 postController.deletePost = (req, res, next) => {
   const { id } = req.params;
   Post.findByIdAndDelete(id)
@@ -25,6 +24,26 @@ postController.deletePost = (req, res, next) => {
     .catch((err) => {
       return next(err);
     });
+};
+
+postController.getSpecificPost = (req, res, next) => {
+  const { id } = req.params;
+  Post.findById(id)
+    .exec()
+    .then((post) => res.send(post))
+    .catch((err) => {
+      return next(err);
+    });
+};  
+
+postController.getAll = async (req, res, next) => {
+  try {
+    const posts = await Post.find({});
+    console.log(posts);
+    res.send(posts);
+  } catch (err) {
+    return next(err);
+  }
 };
 
 module.exports = postController;
