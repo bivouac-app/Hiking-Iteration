@@ -52,10 +52,10 @@ const Feed = props => {
           <Card className="post-cards" sx={{ maxWidth: 345 }}>
             <CardActionArea>
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant="body1" component="div">
                   {post.created_on.slice(0,10)}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="h5" color="text.secondary">
                   {post.content}
                 </Typography>
               </CardContent>
